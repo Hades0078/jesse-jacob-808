@@ -2,7 +2,7 @@
   "rewrites": [
     { "source": "/whoIam", "destination": "/about.html" },
     { "source": "/whatCanIdo", "destination": "/skills.html" },
-    { "source": "/welcome", "destination": "/index.html" }
+    { "source": "/welcome", "destination": "/index.html" },
     { "source": "/whatIveDone", "destination": "/projects.html" }
   ]
 }
