@@ -1018,7 +1018,7 @@ body {
 
 /* Hamburger Menu Styles */
 .hamburger {
-  display: none;
+  display: none; /* Will be overridden in media query */
   background: none;
   border: none;
   cursor: pointer;
@@ -1028,16 +1028,23 @@ body {
   top: 10px;
   right: 20px;
   transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .hamburger-line {
   display: block;
   width: 25px;
   height: 3px;
-  margin: 5px 0;
+  margin: 2px 0;
   background-color: var(--accent-yellow);
   transition: all 0.3s ease;
   border-radius: 3px;
+  transform-origin: center;
 }
 
 /* Shrink hamburger when header shrinks */
@@ -1051,7 +1058,7 @@ header.shrink ~ .hamburger .hamburger-line,
 header.shrink + .hamburger .hamburger-line {
   width: 20px;
   height: 2px;
-  margin: 4px 0;
+  margin: 2px 0;
 }
 
 .hamburger.active {
@@ -1059,21 +1066,22 @@ header.shrink + .hamburger .hamburger-line {
 }
 
 .hamburger.active .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
+  transform: translateY(7px) rotate(45deg) translateX(-1px);
 }
 
 .hamburger.active .hamburger-line:nth-child(2) {
   opacity: 0;
+  transform: scale(0);
 }
 
 .hamburger.active .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
+  transform: translateY(-7px) rotate(-45deg) translateX(-1px);
 }
 
 /* Mobile Navigation Styles */
 @media screen and (max-width: 768px) {
   .hamburger {
-    display: block;
+    display: flex !important; /* Force display in mobile view */
   }
 
   nav {
@@ -1091,12 +1099,6 @@ header.shrink + .hamburger .hamburger-line {
     z-index: 1000;
   }
 
-  /* Adjust nav padding when header shrinks */
-  header.shrink ~ nav,
-  header.shrink + nav {
-    padding-top: 60px;
-  }
-
   nav.active {
     right: 0;
   }
@@ -1105,6 +1107,8 @@ header.shrink + .hamburger .hamburger-line {
     flex-direction: column;
     align-items: flex-start;
     margin-top: 20px;
+    padding: 0;
+    width: 100%;
   }
 
   nav ul li {
@@ -1116,6 +1120,14 @@ header.shrink + .hamburger .hamburger-line {
     display: block;
     padding: 10px 0;
     font-size: 1.2em;
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Ensure navigation links are clickable */
+  nav ul li a:hover {
+    color: var(--accent-blue);
+    text-shadow: var(--glow-blue);
   }
 
   /* Overlay when menu is open */
