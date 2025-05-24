@@ -12,63 +12,53 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// Hamburger menu functionality
+// New Hamburger menu functionality
 const nav = document.querySelector('nav');
 let hamburger = null;
 let isMenuOpen = false;
 
-// Function to close menu
-const closeMenu = () => {
-  isMenuOpen = false;
-  if (hamburger) hamburger.classList.remove('active');
-  nav.classList.remove('active');
-  document.body.style.overflow = '';
+// Function to toggle menu
+const toggleMenu = () => {
+  isMenuOpen = !isMenuOpen;
+  if (isMenuOpen) {
+    hamburger.classList.add('active');
+    nav.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  } else {
+    hamburger.classList.remove('active');
+    nav.classList.remove('active');
+    document.body.style.overflow = '';
+  }
 };
 
-// Function to open menu
-const openMenu = () => {
-  isMenuOpen = true;
-  if (hamburger) hamburger.classList.add('active');
-  nav.classList.add('active');
-  document.body.style.overflow = 'hidden';
-};
-
-// Function to create and insert hamburger menu
+// Function to create hamburger button
 const createHamburger = () => {
   if (!hamburger) {
     hamburger = document.createElement('button');
     hamburger.className = 'hamburger';
+    hamburger.setAttribute('aria-label', 'Toggle navigation menu');
     hamburger.innerHTML = `
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
     `;
-    // Insert hamburger after header
-    header.insertAdjacentElement('afterend', hamburger);
-
-    // Add click event listener
-    hamburger.addEventListener('click', () => {
-      if (isMenuOpen) {
-        closeMenu();
-      } else {
-        openMenu();
-      }
-    });
+    header.appendChild(hamburger);
+    hamburger.addEventListener('click', toggleMenu);
   }
 };
 
-// Function to remove hamburger menu
+// Function to remove hamburger button
 const removeHamburger = () => {
   if (hamburger) {
     if (isMenuOpen) {
-      closeMenu();
+      toggleMenu();
     }
     hamburger.remove();
     hamburger = null;
   }
 };
 
-// Function to handle hamburger visibility based on screen width
+// Handle hamburger visibility based on window width
 const handleHamburgerVisibility = () => {
   if (window.innerWidth <= 768) {
     createHamburger();
@@ -80,21 +70,17 @@ const handleHamburgerVisibility = () => {
 // Initial check
 handleHamburgerVisibility();
 
-// Close menu when window is resized above mobile breakpoint
+// Handle window resize
 window.addEventListener('resize', () => {
   handleHamburgerVisibility();
-  if (window.innerWidth > 768 && isMenuOpen) {
-    closeMenu();
-  }
 });
 
-// Handle navigation link clicks
+// Close menu when navigation link clicked (on mobile)
 const navLinks = document.querySelectorAll('nav ul li a');
 navLinks.forEach(link => {
   link.addEventListener('click', () => {
-    // Close menu after clicking a link
-    if (window.innerWidth <= 768) {
-      closeMenu();
+    if (window.innerWidth <= 768 && isMenuOpen) {
+      toggleMenu();
     }
   });
 });
